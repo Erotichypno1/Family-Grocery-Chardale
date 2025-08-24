@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Family Grocery</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Family Grocery">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    // iOS PWA refresh fix to open as standalone when tapped from Home Screen
+    if (('standalone' in window.navigator) && window.navigator.standalone) {
+      document.addEventListener('click', function (event) {
+        var target = event.target;
+        while (target && target.nodeName !== 'A') target = target.parentNode;
+        if (target && target.href && target.hostname === window.location.hostname) {
+          event.preventDefault();
+          window.location.href = target.href;
+        }
+      }, false);
+    }
+  </script>
+</head>
+<body>
+  <header class="app-header">
+    <h1>Family Grocery</h1>
+    <button id="exportBtn" class="btn ghost">Export</button>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>Add item</h2>
+      <form id="addForm" class="grid">
+        <input id="nameInput" class="input" placeholder="Item name" required>
+        <input id="qtyInput" class="input" type="number" min="1" value="1" aria-label="Quantity">
+        <select id="storeInput" class="input">
+          <option>Walmart</option>
+          <option>Sam's Club</option>
+          <option>Costco</option>
+          <option>Other</option>
+        </select>
+        <button class="btn primary" type="submit">Add</button>
+      </form>
+      <div id="suggestions" class="suggestions hidden"></div>
+    </section>
+
+    <section class="card">
+      <h2>Your list</h2>
+      <div class="filters">
+        <button class="chip active" data-filter="All">All</button>
+        <button class="chip" data-filter="Walmart">Walmart</button>
+        <button class="chip" data-filter="Sam's Club">Sam's Club</button>
+        <button class="chip" data-filter="Costco">Costco</button>
+        <button class="chip" data-filter="Other">Other</button>
+      </div>
+
+      <div id="lists" class="lists">
+        <!-- Lists by store will render here -->
+      </div>
+
+      <div class="actions">
+        <button id="clearCheckedBtn" class="btn danger">Clear purchased</button>
+        <button id="markAllBtn" class="btn ghost">Mark all needed</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Remembered items</h2>
+      <p class="muted">Items purchased 2 or more times show here for quick add.</p>
+      <div id="remembered" class="remembered"></div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <span>Made for Bruce's family</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
